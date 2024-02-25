@@ -2,7 +2,6 @@ package com.decibility.decibilityapp;
 
 import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.util.Log;
 
 import java.io.IOException;
@@ -54,7 +53,7 @@ public class ConnectedThread extends Thread {
                         msg += " ";
                     }
                     Log.d("Buffer from device", msg);
-                    mHandler.obtainMessage(MainActivity.MESSAGE_READ, bytes, -1, buffer)
+                    mHandler.obtainMessage(ConnectDevicePage.MESSAGE_READ, bytes, -1, buffer)
                             .sendToTarget(); // Send the obtained bytes to the UI activity
                 }
 //            } catch (IOException e) {

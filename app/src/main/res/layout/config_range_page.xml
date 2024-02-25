@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ConfigRangePage">
+
+    <TextView
+        android:id="@+id/freq_header"
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:text="Frequency"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/freq_instr"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/min_volume_input"
+        android:layout_width="220dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:hint="Minimum Volume (dB)"
+        android:inputType="numberDecimal"
+        android:freezesText="true"
+        app:layout_constraintBottom_toTopOf="@+id/max_volume_input"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/volume_instr"
+        android:layout_width="340dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="16dp"
+        android:text="Please input the volume range you are able to hear."
+        app:layout_constraintBottom_toTopOf="@+id/min_volume_input"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/freq_instr"
+        android:layout_width="340dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="14dp"
+        android:text="Please input the frequency range you are able to hear."
+        app:layout_constraintBottom_toTopOf="@+id/min_frequency_input"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/max_frequency_input"
+        android:layout_width="220dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="90dp"
+        android:ems="10"
+        android:freezesText="true"
+        android:hint="Maximum Frequency (Hz)"
+        android:inputType="numberDecimal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/min_frequency_input"
+        android:layout_width="220dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:hint="Minumum Frequency (Hz)"
+        android:inputType="numberDecimal"
+        android:freezesText="true"
+        app:layout_constraintBottom_toTopOf="@+id/max_frequency_input"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/max_volume_input"
+        android:layout_width="220dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="40dp"
+        android:ems="10"
+        android:hint="Maximum Volume (dB)"
+        android:inputType="numberDecimal"
+        android:freezesText="true"
+        app:layout_constraintBottom_toTopOf="@+id/freq_header"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/config_range_back_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="Back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/config_range_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:layout_marginBottom="550dp"
+        android:text="Configure Hearing Range"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.428" />
+
+    <TextView
+        android:id="@+id/volume_header"
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Volume"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/volume_instr"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/config_range_title"
+        app:layout_constraintVertical_bias="1.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
