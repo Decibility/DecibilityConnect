@@ -6,7 +6,7 @@ public class AudioConstants {
     // Number of samples sent in one burst from the wearable
     // Must match the number specified in the wearable drivers
     // Must be a power of two or the audio processing will have issues
-    public static final short NUM_SAMPLES = 16;
+    public static final short NUM_SAMPLES = 1024;
 
     // Calculated length of the buffer needed to store sample bytes
     public static final short BUFFER_LEN = NUM_SAMPLES * 2;
@@ -29,7 +29,7 @@ public class AudioConstants {
     // ********************** Audio Logging Messages ******************** //
 
     // Logging Tag
-    public static final String AUDIO_TAG = "Audio Read: ";
+    public static final String AUDIO_TAG = "Audio Debug Message";
 
     // Warnings
     public static final String INCORRECT_START_CHAR = "Burst has incorrect start char";

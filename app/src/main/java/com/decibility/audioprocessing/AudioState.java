@@ -1,5 +1,7 @@
 package com.decibility.audioprocessing;
 
+import android.util.Log;
+
 import com.decibility.audioprocessing.fft.FFT;
 
 import java.util.Arrays;
@@ -33,9 +35,10 @@ public class AudioState {
     public void updateVolume() {
         avgVolume = 0;
         for(short sampleVal: samples) {
-            avgVolume += sampleVal;
+            avgVolume += (double) sampleVal / AudioConstants.NUM_SAMPLES;
         }
-        avgVolume /= AudioConstants.NUM_SAMPLES;
+
+        Log.v(AudioConstants.AUDIO_TAG, "Average Sample Volume: " + Double.toString(avgVolume));
     }
 
     public void updateFrequency() {
@@ -48,7 +51,7 @@ public class AudioState {
 
         int maxIndex = 0;
         double maxAmplitude = 0;
-        for(int i = 0; i < AudioConstants.NUM_SAMPLES; i++) {
+        for(int i = 0; i < AudioConstants.NUM_SAMPLES / 2; i++) { // Only look at the positive frequency bins
             if(fftBuffer[i] > maxAmplitude) {
                 maxAmplitude = fftBuffer[i];
                 maxIndex = i;
@@ -56,6 +59,8 @@ public class AudioState {
         }
 
         mainFrequency = mFFT.indexToFreq(maxIndex);
+
+        Log.v(AudioConstants.AUDIO_TAG, "Dominant Frequency: " + Double.toString(mainFrequency) + " (Bucket num: " + maxIndex + " )");
     }
 
     public double getAvgVolume() {

@@ -32,6 +32,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.Set;
 import java.util.UUID;
 
+import com.decibility.audioprocessing.AudioThread;
+import com.decibility.ledmanager.DecibilityLEDs;
+
 public class ConnectDevicePage extends AppCompatActivity {
 
     private final String TAG = ConnectDevicePage.class.getSimpleName();
@@ -59,8 +62,9 @@ public class ConnectDevicePage extends AppCompatActivity {
     private ArrayAdapter<String> mBTArrayAdapter;
 
     private Handler mHandler; // Our main handler that will receive callback notifications
-    private ConnectedThread mConnectedThread; // bluetooth background worker thread to send and receive data
     private BluetoothSocket mBTSocket = null; // bi-directional client-to-client data path
+
+    private AudioThread mAudioThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,8 +130,11 @@ public class ConnectDevicePage extends AppCompatActivity {
             mLED1.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
-                    if(mConnectedThread != null) //First check to make sure thread created
-                        mConnectedThread.write("wabcabcabcabcabcabc\n");
+                    if(mAudioThread != null) //First check to make sure thread created
+                    {
+                        mAudioThread.getmLEDs().setAll(20, 20, 20);
+                        mAudioThread.getmLEDs().updateAll();
+                    }
                 }
             });
 
@@ -291,8 +298,8 @@ public class ConnectDevicePage extends AppCompatActivity {
                         }
                     }
                     if(!fail) {
-                        mConnectedThread = new ConnectedThread(mBTSocket, mHandler);
-                        mConnectedThread.start();
+                        mAudioThread = new AudioThread(mBTSocket);
+                        mAudioThread.start();
 
                         mHandler.obtainMessage(CONNECTING_STATUS, 1, -1, name)
                                 .sendToTarget();

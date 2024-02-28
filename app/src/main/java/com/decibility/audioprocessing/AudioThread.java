@@ -3,16 +3,23 @@ package com.decibility.audioprocessing;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
+import com.decibility.ledmanager.DecibilityLEDs;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 
+// Thread that handles receiving audio from the wearable
 public class AudioThread extends Thread {
     // Bluetooth Communication
     private final BluetoothSocket mSocket;
     private final InputStream mInStream;
 
     // Stores the value of each ADC sample
-    private AudioState mAudioState;
+    private final AudioState mAudioState;
+
+    // Reference to LEDs that should be updated
+    private final DecibilityLEDs mLEDs;
 
     private boolean isRunning; // Flag to show if the thread is running
     private boolean halted;
@@ -32,6 +39,9 @@ public class AudioThread extends Thread {
         // Thread is not running until .run() is called
         isRunning = false;
         halted = false;
+
+        mAudioState = new AudioState();
+        mLEDs = new DecibilityLEDs(socket);
     }
 
     @Override
@@ -65,8 +75,11 @@ public class AudioThread extends Thread {
                 // to update the Audio State
                 mAudioState.update(sampleBuffer);
 
+                // Update LEDs Based on Audio State
+                mLEDs.updateFromState(mAudioState);
+
             } catch (AudioReadException e) {
-                Log.w(AudioConstants.AUDIO_TAG, e.getMessage());
+                Log.w(AudioConstants.AUDIO_TAG, Objects.requireNonNull(e.getMessage()));
             } catch (Exception e) {
                 Log.e(AudioConstants.AUDIO_TAG, AudioConstants.BT_READ_FAILURE);
                 e.printStackTrace();
@@ -101,8 +114,16 @@ public class AudioThread extends Thread {
 
         // Get the actual sample value, as there are two bytes per sample
         for(int i = 0; i < AudioConstants.NUM_SAMPLES; i++) {
-            sampleBuffer[i] = (short)(byteBuffer[i * 2] + (byteBuffer[i * 2 + 1] << 8));
+            sampleBuffer[i] = (short)(((byteBuffer[i * 2 + 1] & 0xFF) << 8) | (byteBuffer[i * 2] & 0xFF));
         }
+    }
+
+    public AudioState getAudioState() {
+        return mAudioState;
+    }
+
+    public DecibilityLEDs getmLEDs() {
+        return mLEDs;
     }
 
     // Stops trying to read audio data
@@ -120,6 +141,6 @@ public class AudioThread extends Thread {
 // Custom Exception to handle errors during audio read
 class AudioReadException extends Exception {
     public AudioReadException(String message) {
-        super(message);
+        super(message == null ? "No message was provided" : message);
     }
 }
