@@ -6,7 +6,7 @@ public class AudioConstants {
     // Number of samples sent in one burst from the wearable
     // Must match the number specified in the wearable drivers
     // Must be a power of two or the audio processing will have issues
-    public static final short NUM_SAMPLES = 1024;
+    public static final short NUM_SAMPLES = 512;
 
     // Calculated length of the buffer needed to store sample bytes
     public static final short BUFFER_LEN = NUM_SAMPLES * 2;

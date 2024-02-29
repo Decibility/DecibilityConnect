@@ -11,9 +11,13 @@ public class LEDConstants {
     public static final char LED_MESSAGE_END_CHAR = '\n';
 
     // TEMPORARY values to store max and min bounds for volume/frequency
-    public static final double MIN_VOLUME = 100;
-    public static final double MAX_VOLUME = 1000;
-    public static final double MIN_FREQUENCY = 10;
-    public static final double MAX_FREQUENCY = 1000;
+    public static final double DEFAULT_MIN_VOLUME = 100;
+    public static final double DEFAULT_MAX_VOLUME = 1000;
+    public static final double DEFAULT_MIN_FREQUENCY = 10;
+    public static final double DEFAULT_MAX_FREQUENCY = 1000;
+
+    // Error Strings
+    public static final String LED_TAG = "LED Write Error";
+    public static final String BOUND_FORMAT_ERROR = "Error writing new bounds: ";
 }
 

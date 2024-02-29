@@ -7,9 +7,7 @@ import android.util.Log;
 import com.decibility.audioprocessing.AudioState;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Arrays;
 
 public class DecibilityLEDs {
     // Bluetooth Communication Stream
@@ -18,6 +16,12 @@ public class DecibilityLEDs {
     // Stores the value of each LED
     private final DecibilityLED [] volumeLEDs;
     private final DecibilityLED [] frequencyLEDs;
+
+    // Configuration Values for Audio
+    private double min_vol;
+    private double max_vol;
+    private double min_freq;
+    private double max_freq;
 
     @SuppressLint("NewApi")
     public DecibilityLEDs(BluetoothSocket socket) {
@@ -42,6 +46,12 @@ public class DecibilityLEDs {
         for(int i = 0; i < LEDConstants.NUM_FREQ_LEDS; i++) {
             frequencyLEDs[i] = new DecibilityLED();
         }
+
+        // Set bounds to default values
+        min_vol = LEDConstants.DEFAULT_MIN_VOLUME;
+        max_vol = LEDConstants.DEFAULT_MAX_VOLUME;
+        min_freq = LEDConstants.DEFAULT_MIN_FREQUENCY;
+        max_freq = LEDConstants.DEFAULT_MAX_FREQUENCY;
     }
 
     // Set all LEDs to target a color
@@ -74,17 +84,17 @@ public class DecibilityLEDs {
     }
 
     public void updateFromState(AudioState state) {
-        if(state.getAvgVolume() < LEDConstants.MIN_VOLUME) {
+        if(state.getAvgVolume() < min_vol) {
             for(DecibilityLED led: volumeLEDs) led.setColor(0, 0, 10);
-        } else if (state.getAvgVolume() > LEDConstants.MAX_VOLUME) {
+        } else if (state.getAvgVolume() > max_vol) {
             for(DecibilityLED led: volumeLEDs) led.setColor(10, 0, 0);
         } else {
             for(DecibilityLED led: volumeLEDs) led.setColor(0, 10, 0);
         }
 
-        if(state.getMainFrequency() < LEDConstants.MIN_FREQUENCY) {
+        if(state.getMainFrequency() < min_freq) {
             for(DecibilityLED led: frequencyLEDs) led.setColor(0, 0, 10);
-        } else if (state.getMainFrequency() > LEDConstants.MAX_FREQUENCY) {
+        } else if (state.getMainFrequency() > max_freq) {
             for(DecibilityLED led: frequencyLEDs) led.setColor(10, 0, 0);
         } else {
             for(DecibilityLED led: frequencyLEDs) led.setColor(0, 10, 0);
@@ -93,14 +103,16 @@ public class DecibilityLEDs {
         this.updateAll();
     }
 
-//    public void write_config_data(String min_volume_input, String max_volume_input, String min_freq_input, String max_freq_input) {
-//        String msg = min_volume_input + max_volume_input + min_freq_input + max_freq_input;
-//        try {
-//            mOutStream.write(msg.getBytes());
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
+    public void write_config_data(String min_volume_input, String max_volume_input, String min_freq_input, String max_freq_input) {
+        try {
+            min_vol = Double.parseDouble(min_volume_input);
+            max_vol = Double.parseDouble(max_volume_input);
+            min_freq = Double.parseDouble(min_freq_input);
+            max_freq = Double.parseDouble(max_volume_input);
+        } catch (NumberFormatException e) {
+            Log.e(LEDConstants.LED_TAG, LEDConstants.BOUND_FORMAT_ERROR + e.toString());
+        }
+    }
 }
 
 class DecibilityLED {
