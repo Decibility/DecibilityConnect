@@ -93,6 +93,14 @@ public class DecibilityLEDs {
         this.updateAll();
     }
 
+//    public void write_config_data(String min_volume_input, String max_volume_input, String min_freq_input, String max_freq_input) {
+//        String msg = min_volume_input + max_volume_input + min_freq_input + max_freq_input;
+//        try {
+//            mOutStream.write(msg.getBytes());
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 }
 
 class DecibilityLED {
