@@ -45,6 +45,9 @@ public class ConfigRangePage extends AppCompatActivity {
             intent.putExtra("max_volume_input", max_volume_input.getText().toString());
             intent.putExtra("min_frequency_input", min_frequency_input.getText().toString());
             intent.putExtra("max_frequency_input", max_frequency_input.getText().toString());
+
+
+
             startActivity(intent);
         });
     }

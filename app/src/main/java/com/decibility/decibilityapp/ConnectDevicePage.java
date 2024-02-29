@@ -1,5 +1,7 @@
 package com.decibility.decibilityapp;
 
+import static java.lang.System.out;
+
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -22,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -123,7 +126,38 @@ public class ConnectDevicePage extends AppCompatActivity {
         else {
 
             connect_device_back_btn.setOnClickListener(view -> {
+
                 Intent intent = new Intent(this, HomePage.class);
+                Intent this_intent = getIntent();
+
+                // send user range configuration to device
+                if (getIntent().hasExtra("min_volume_input")) {
+                    Log.d("CONFIG", (getIntent().getStringExtra("min_volume_input")));
+                }
+                if (getIntent().hasExtra("max_volume_input")) {
+                    Log.d("CONFIG", (getIntent().getStringExtra("max_volume_input")));
+                }
+                if (getIntent().hasExtra("min_frequency_input")) {
+                    Log.d("CONFIG", (getIntent().getStringExtra("min_frequency_input")));
+                }
+                if (getIntent().hasExtra("max_frequency_input")) {
+                    Log.d("CONFIG", (getIntent().getStringExtra("max_frequency_input")));
+                }
+
+                // keep data persistent through page navigation
+                if (this_intent.hasExtra("min_volume_input")) {
+                    intent.putExtra("min_volume_input", this_intent.getStringExtra("min_volume_input"));
+                }
+                if (this_intent.hasExtra("max_volume_input")) {
+                    intent.putExtra("max_volume_input", this_intent.getStringExtra("max_volume_input"));
+                }
+                if (this_intent.hasExtra("min_frequency_input")) {
+                    intent.putExtra("min_frequency_input", this_intent.getStringExtra("min_frequency_input"));
+                }
+                if (this_intent.hasExtra("max_frequency_input")) {
+                    intent.putExtra("max_frequency_input", this_intent.getStringExtra("max_frequency_input"));
+                }
+
                 startActivity(intent);
             });
 

@@ -18,6 +18,21 @@ public class HomePage extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomePage.this, ConnectDevicePage.class);
+
+                Intent this_intent = getIntent();
+                if (this_intent.hasExtra("min_volume_input")) {
+                    intent.putExtra("min_volume_input", this_intent.getStringExtra("min_volume_input"));
+                }
+                if (this_intent.hasExtra("max_volume_input")) {
+                    intent.putExtra("max_volume_input", this_intent.getStringExtra("max_volume_input"));
+                }
+                if (this_intent.hasExtra("min_frequency_input")) {
+                    intent.putExtra("min_frequency_input", this_intent.getStringExtra("min_frequency_input"));
+                }
+                if (this_intent.hasExtra("max_frequency_input")) {
+                    intent.putExtra("max_frequency_input", this_intent.getStringExtra("max_frequency_input"));
+                }
+
                 startActivity(intent);
             }
         });

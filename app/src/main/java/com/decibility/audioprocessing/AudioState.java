@@ -34,11 +34,17 @@ public class AudioState {
 
     public void updateVolume() {
         avgVolume = 0;
+        int issues = 0;
         for(short sampleVal: samples) {
-            avgVolume += (double) sampleVal / AudioConstants.NUM_SAMPLES;
+            if(sampleVal < 0) {
+                issues++;
+                continue;
+            }
+            avgVolume += (double) sampleVal;
         }
+        avgVolume /= (double) (AudioConstants.NUM_SAMPLES - issues);
 
-        Log.v(AudioConstants.AUDIO_TAG, "Average Sample Volume: " + Double.toString(avgVolume));
+        Log.v(AudioConstants.AUDIO_TAG, "Average Sample Volume: " + Double.toString(avgVolume) + " " + Integer.toString(issues));
     }
 
     public void updateFrequency() {
