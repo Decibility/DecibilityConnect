@@ -33,24 +33,30 @@ public class AudioState {
     }
 
     public void updateVolume() {
-        avgVolume = 0;
-        int issues = 0;
+        // Calculate and Remove the DC Offset of the audio signal
+        double dcOffset = 0;
         for(short sampleVal: samples) {
-            if(sampleVal < 0) {
-                issues++;
-                continue;
-            }
-            avgVolume += (double) sampleVal;
+            dcOffset += sampleVal;
         }
-        avgVolume /= (double) (AudioConstants.NUM_SAMPLES - issues);
+        dcOffset /= AudioConstants.NUM_SAMPLES;
 
-        Log.v(AudioConstants.AUDIO_TAG, "Average Sample Volume: " + Double.toString(avgVolume) + " " + Integer.toString(issues));
+        // Find average amplitude of the audio signal
+        avgVolume = 0;
+        for(short sampleVal: samples) {
+            avgVolume += Math.abs((double)sampleVal - dcOffset);
+        }
+        avgVolume /= AudioConstants.NUM_SAMPLES;
+
+        // Convert average amplitude to decibels
+        avgVolume = 20 * Math.log10(avgVolume);
+
+        Log.v(AudioConstants.AUDIO_TAG, "Average Sample Volume (dB): " + avgVolume);
     }
 
     public void updateFrequency() {
         float[] fftBuffer = new float[AudioConstants.NUM_SAMPLES];
         for(int i = 0; i < AudioConstants.NUM_SAMPLES; i++) {
-            fftBuffer[i] = (float) samples[i];
+            fftBuffer[i] = samples[i];
         }
 
         mFFT.forward(fftBuffer);
@@ -66,7 +72,7 @@ public class AudioState {
 
         mainFrequency = mFFT.indexToFreq(maxIndex);
 
-        Log.v(AudioConstants.AUDIO_TAG, "Dominant Frequency: " + Double.toString(mainFrequency) + " (Bucket num: " + maxIndex + " )");
+        Log.v(AudioConstants.AUDIO_TAG, "Dominant Frequency: " + mainFrequency + " (Bucket num: " + maxIndex + " )");
     }
 
     public double getAvgVolume() {
