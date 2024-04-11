@@ -265,9 +265,12 @@ public class ConnectDevicePage extends AppCompatActivity {
             String action = intent.getAction();
             if(BluetoothDevice.ACTION_FOUND.equals(action)){
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                // add the name to the list
-                mBTArrayAdapter.add(device.getName() + "\n" + device.getAddress());
-                mBTArrayAdapter.notifyDataSetChanged();
+
+                // Checks if device is a Decibility device, if so it is shown in the list
+                if(device.getName() != null && device.getName().matches("(?i).*decibility.*")) {
+                    mBTArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+                    mBTArrayAdapter.notifyDataSetChanged();
+                }
             }
         }
     };

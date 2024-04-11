@@ -18,6 +18,9 @@ public class AudioConstants {
     // Must be the same as the sampling rate of the ADC as specified in the device drivers
     public static final int AUDIO_SAMPLE_RATE = 44100;
 
+    // Audio Offset
+    public static final int AUDIO_OFFSET_DB = 40;
+
     // Length of time that the samples covers in seconds
     public static final double AUDIO_TIMESLICE_LENGTH = (double) NUM_SAMPLES / AUDIO_SAMPLE_RATE;
 

@@ -48,7 +48,7 @@ public class AudioState {
         avgVolume /= AudioConstants.NUM_SAMPLES;
 
         // Convert average amplitude to decibels
-        avgVolume = 20 * Math.log10(avgVolume);
+        avgVolume = 20 * Math.log10(avgVolume) + AudioConstants.AUDIO_OFFSET_DB;
 
         Log.v(AudioConstants.AUDIO_TAG, "Average Sample Volume (dB): " + avgVolume);
     }

@@ -11,8 +11,8 @@ public class LEDConstants {
     public static final char LED_MESSAGE_END_CHAR = '\n';
 
     // TEMPORARY values to store max and min bounds for volume/frequency
-    public static final double DEFAULT_MIN_VOLUME = 100;
-    public static final double DEFAULT_MAX_VOLUME = 1000;
+    public static final double DEFAULT_MIN_VOLUME = 50;
+    public static final double DEFAULT_MAX_VOLUME = 65;
     public static final double DEFAULT_MIN_FREQUENCY = 10;
     public static final double DEFAULT_MAX_FREQUENCY = 1000;
 
