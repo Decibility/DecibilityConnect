@@ -291,6 +291,7 @@ public class ConnectDevicePage extends AppCompatActivity {
     }
 
     private AdapterView.OnItemClickListener mDeviceClickListener = new AdapterView.OnItemClickListener() {
+        final AppCompatActivity activity = ConnectDevicePage.this;
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -335,7 +336,7 @@ public class ConnectDevicePage extends AppCompatActivity {
                         }
                     }
                     if(!fail) {
-                        mAudioThread = new AudioThread(mBTSocket);
+                        mAudioThread = new AudioThread(mBTSocket, activity);
                         mAudioThread.start();
 
                         mHandler.obtainMessage(CONNECTING_STATUS, 1, -1, name)

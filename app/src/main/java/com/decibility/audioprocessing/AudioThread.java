@@ -1,6 +1,9 @@
 package com.decibility.audioprocessing;
 
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.decibility.ledmanager.DecibilityLEDs;
@@ -21,10 +24,16 @@ public class AudioThread extends Thread {
     // Reference to LEDs that should be updated
     private final DecibilityLEDs mLEDs;
 
+    // Context for preferences
+    private final Context mContext;
+
+    // Preferences to get audio parameter preferences
+    private final SharedPreferences sharedPreferences;
+
     private boolean isRunning; // Flag to show if the thread is running
     private boolean halted;
 
-    public AudioThread(BluetoothSocket socket) {
+    public AudioThread(BluetoothSocket socket, Context context) {
         mSocket = socket;
         InputStream tmpIn = null;
 
@@ -42,6 +51,9 @@ public class AudioThread extends Thread {
 
         mAudioState = new AudioState();
         mLEDs = new DecibilityLEDs(socket);
+
+        mContext = context;
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
     }
 
     @Override
@@ -56,6 +68,14 @@ public class AudioThread extends Thread {
         // If there is an issue with the bluetooth input stream, the thread's execution will end
         while (!halted) {
             try {
+                // Update bounds from sharedPreferences
+                mLEDs.write_config_data(
+                    sharedPreferences.getString("min_volume_input", ""),
+                    sharedPreferences.getString("max_volume_input", ""),
+                    sharedPreferences.getString("min_frequency_input", ""),
+                    sharedPreferences.getString("max_frequency_input", "")
+                );
+
                 // Wait until enough bytes for all the data and a start and end byte are available
                 if(mInStream.available() < AudioConstants.BURST_LEN)
                     continue;
